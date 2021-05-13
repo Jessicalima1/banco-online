@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.jessysolutions.api.dtos.ContaRequestDTO;
+import br.com.jessysolutions.api.dtos.ContaResponseDTO;
 import br.com.jessysolutions.domain.models.Conta;
 import br.com.jessysolutions.domain.repositories.ContaRepository;
 
@@ -21,12 +23,15 @@ public class ContaController {
 	private ContaRepository contaRepository;
 
 	@PostMapping
-	public ResponseEntity<Conta> adicionar(@RequestBody @Valid Conta conta, UriComponentsBuilder uriComponentsBuilder) {
+	public ResponseEntity<ContaResponseDTO> adicionar(@RequestBody @Valid ContaRequestDTO contaRequestDTO, UriComponentsBuilder uriComponentsBuilder) {
 
+		Conta conta = contaRequestDTO.toModel();
 		Conta save = contaRepository.save(conta);
+		ContaResponseDTO contaResponseDTO = new ContaResponseDTO(save);
 
+		
 		return ResponseEntity.created(uriComponentsBuilder.path("/contas/{id}").buildAndExpand(save.getId()).toUri())
-				.body(save);
+				.body(contaResponseDTO);
 
 	}
 }

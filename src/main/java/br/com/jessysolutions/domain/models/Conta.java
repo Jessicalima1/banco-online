@@ -39,6 +39,21 @@ public class Conta {
 	@PositiveOrZero
 	private BigDecimal saldo;
 
+	@Deprecated
+	public Conta () {
+
+	}
+
+	public Conta(@NotNull Cliente cliente, @NotEmpty @Size(min = 4, max = 5) String agencia,
+			@NotEmpty @Size(min = 8, max = 8) String numeroDaConta,
+			@NotEmpty @Size(min = 1, max = 1) String digitoVerificador, @NotNull @PositiveOrZero BigDecimal saldo) {
+		this.cliente = cliente;
+		this.agencia = agencia;
+		this.numeroDaConta = numeroDaConta;
+		this.digitoVerificador = digitoVerificador;
+		this.saldo = saldo;
+	}
+
 	public Integer getId() {
 		return id;
 	}
